@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: nome_do_banco
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://username:password@db:5432/nome_do_banco
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

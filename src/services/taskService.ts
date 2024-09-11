@@ -25,12 +25,12 @@ async function postNewTask(userId: number, title: string, description: string, p
   return task;
 }
 
-async function taskUpdate(taskId: number, status: TaskStatus, priority: PriorityLevel): Promise<Task> {
+async function taskUpdate(taskId: number, title: string, description: string, status: TaskStatus, priority: PriorityLevel): Promise<Task> {
   const hasTask = await tasksRepository.findByTaskId(taskId);
   if (!hasTask) {
     throw notFoundError();
   }
-  const updatedTask = await tasksRepository.updateTask(taskId, status, priority);
+  const updatedTask = await tasksRepository.updateTask(taskId, title, description, status, priority);
 
   return updatedTask;
 }

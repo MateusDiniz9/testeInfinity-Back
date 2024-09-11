@@ -36,7 +36,7 @@ async function createTask(userId: number, title: string, description: string, pr
   return newTask;
 }
 
-async function updateTask(taskId: number, status: TaskStatus, priority: PriorityLevel) {
+async function updateTask(taskId: number, title: string, description: string, status: TaskStatus, priority: PriorityLevel) {
   const statusEnum = TaskStatus[status as keyof typeof TaskStatus];
   const priorityEnum = PriorityLevel[priority as keyof typeof PriorityLevel];
   const task = await prisma.task.update({
@@ -44,6 +44,8 @@ async function updateTask(taskId: number, status: TaskStatus, priority: Priority
       id: taskId,
     },
     data: {
+      title,
+      description,
       status: statusEnum,
       priority: priorityEnum,
     },

@@ -1,7 +1,7 @@
 import { Task, TaskStatus, PriorityLevel } from '@prisma/client';
 import tasksRepository from '../repositories/tasksRepository';
 import userService from './userSevice';
-import { notFoundError } from '../error/error';
+import { notFoundError } from '../error/NotFoundError';
 
 async function getAllUserTasks(userId: number): Promise<Task[]> {
   const user = await userService.getUserById(userId);

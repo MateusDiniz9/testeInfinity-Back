@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { userSchema } from '../schemas/userSchemas';
 
-export async function usersPost(req: Request, res: Response) {
+export async function signUp(req: Request, res: Response) {
   const { email, password } = req.body;
 
   try {
@@ -25,7 +25,7 @@ export async function usersPost(req: Request, res: Response) {
   }
 }
 
-export async function singInPost(req: Request, res: Response) {
+export async function singIn(req: Request, res: Response) {
   const { email, password } = req.body;
 
   try {

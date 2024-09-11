@@ -27,11 +27,10 @@ async function createSession(data: Prisma.SessionUncheckedCreateInput) {
   });
 }
 
-async function findById(userId: string) {
-  const id = parseInt(userId);
+async function findById(userId: number) {
   return prisma.user.findFirst({
     where: {
-      id,
+      id: userId,
     },
   });
 }

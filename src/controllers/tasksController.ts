@@ -1,12 +1,19 @@
 import tasksService from '../services/taskService';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { TaskStatus, PriorityLevel } from '@prisma/client';
+
+interface UpdateTaskRequest {
+  status: TaskStatus;
+  priority?: PriorityLevel;
+}
 
 export async function getTasks(req: Request, res: Response) {
-  const { userId } = req.body;
+  const { userId } = req.query;
 
   try {
-    const userTasks = await tasksService.getAllUserTasks(userId);
+    const id = Array.isArray(userId) ? userId[0] : userId;
+    const userTasks = await tasksService.getAllUserTasks(Number(id));
     return res.status(httpStatus.OK).send(userTasks);
   } catch (error) {
     if (error.name === 'RequestError') {
@@ -37,10 +44,10 @@ export async function taskPost(req: Request, res: Response) {
 }
 
 export async function taskPut(req: Request, res: Response) {
-  const { taskId, title, description, status, priority } = req.body;
-
+  const taskId = parseInt(req.params.id);
+  const { status, priority }: UpdateTaskRequest = req.body;
   try {
-    const taskPut = await tasksService.taskUpdate(taskId, title, description, status, priority);
+    const taskPut = await tasksService.taskUpdate(taskId, status, priority);
     return res.status(httpStatus.OK).send(taskPut);
   } catch (error) {
     if (error.name === 'RequestError') {
@@ -54,7 +61,7 @@ export async function taskPut(req: Request, res: Response) {
 }
 
 export async function taskRemove(req: Request, res: Response) {
-  const { taskId } = req.body;
+  const taskId = parseInt(req.params.id);
 
   try {
     const taskRemove = await tasksService.removeTaskById(taskId);

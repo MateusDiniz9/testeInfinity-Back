@@ -1,34 +1,31 @@
 import { PriorityLevel, TaskStatus } from '@prisma/client';
 import { prisma } from '../config/database';
 
-async function findByUserId(userId: string) {
-  const id = parseInt(userId);
+async function findByUserId(userId: number) {
   const tasks = await prisma.task.findMany({
     where: {
-      userId: id,
+      userId,
     },
   });
 
   return tasks;
 }
 
-async function findByTaskId(taskId: string) {
-  const id = parseInt(taskId);
+async function findByTaskId(taskId: number) {
   const tasks = await prisma.task.findUnique({
     where: {
-      id: id,
+      id: taskId,
     },
   });
 
   return tasks;
 }
 
-async function createTask(userId: string, title: string, description: string, priority: PriorityLevel) {
-  const id = parseInt(userId);
+async function createTask(userId: number, title: string, description: string, priority: PriorityLevel) {
   const priorityEnum = PriorityLevel[priority as keyof typeof PriorityLevel];
   const newTask = await prisma.task.create({
     data: {
-      userId: id,
+      userId,
       title,
       description,
       status: TaskStatus.TODO,
@@ -39,17 +36,14 @@ async function createTask(userId: string, title: string, description: string, pr
   return newTask;
 }
 
-async function updateTask(taskId: string, title: string, description: string, status: TaskStatus, priority: PriorityLevel) {
-  const id = parseInt(taskId);
+async function updateTask(taskId: number, status: TaskStatus, priority: PriorityLevel) {
   const statusEnum = TaskStatus[status as keyof typeof TaskStatus];
   const priorityEnum = PriorityLevel[priority as keyof typeof PriorityLevel];
   const task = await prisma.task.update({
     where: {
-      id: id,
+      id: taskId,
     },
     data: {
-      title,
-      description,
       status: statusEnum,
       priority: priorityEnum,
     },
@@ -58,11 +52,10 @@ async function updateTask(taskId: string, title: string, description: string, st
   return task;
 }
 
-async function removeTask(taskId: string) {
-  const id = parseInt(taskId);
+async function removeTask(taskId: number) {
   const task = await prisma.task.delete({
     where: {
-      id: id,
+      id: taskId,
     },
   });
 

@@ -3,7 +3,7 @@ import tasksRepository from '../repositories/tasksRepository';
 import userService from './userSevice';
 import { notFoundError } from '../error/error';
 
-async function getAllUserTasks(userId: string): Promise<Task[]> {
+async function getAllUserTasks(userId: number): Promise<Task[]> {
   const user = await userService.getUserById(userId);
   if (!user) {
     throw notFoundError();
@@ -15,7 +15,7 @@ async function getAllUserTasks(userId: string): Promise<Task[]> {
   return tasks;
 }
 
-async function postNewTask(userId: string, title: string, description: string, priority: PriorityLevel): Promise<Task> {
+async function postNewTask(userId: number, title: string, description: string, priority: PriorityLevel): Promise<Task> {
   const user = await userService.getUserById(userId);
   if (!user) {
     throw notFoundError();
@@ -25,17 +25,17 @@ async function postNewTask(userId: string, title: string, description: string, p
   return task;
 }
 
-async function taskUpdate(taskId: string, title: string, description: string, status: TaskStatus, priority: PriorityLevel): Promise<Task> {
+async function taskUpdate(taskId: number, status: TaskStatus, priority: PriorityLevel): Promise<Task> {
   const hasTask = await tasksRepository.findByTaskId(taskId);
   if (!hasTask) {
     throw notFoundError();
   }
-  const updatedTask = await tasksRepository.updateTask(taskId, title, description, status, priority);
+  const updatedTask = await tasksRepository.updateTask(taskId, status, priority);
 
   return updatedTask;
 }
 
-async function removeTaskById(taskId: string): Promise<Task> {
+async function removeTaskById(taskId: number): Promise<Task> {
   const hasTask = await tasksRepository.findByTaskId(taskId);
   if (!hasTask) {
     throw notFoundError();

@@ -68,7 +68,7 @@ async function validatePasswordOrFail(password: string, userPassword: string) {
   }
 }
 
-async function getUserById(userId: string) {
+async function getUserById(userId: number) {
   const user = await userRepository.findById(userId);
   if (!user) {
     const error = new Error('UserDoesntExist');

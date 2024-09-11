@@ -87,10 +87,10 @@ docker-compose up --build
 
 ### Tarefas
 
-- GET /tasks: Lista todas as tarefas de um usuário pelo ID
+- GET /tasks: Lista todas as tarefas de um usuário
 - POST /tasks: Cria uma nova tarefa para um usuário
-- PUT /tasks/:id Atualiza uma tarefa pelo ID
-- DELETE /tasks/:id Remove uma tarefa pelo ID
+- PUT /tasks/:id Atualiza uma tarefa
+- DELETE /tasks/:id Remove uma tarefa
 
 ### Variáveis de Ambiente
 

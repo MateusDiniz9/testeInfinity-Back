@@ -14,8 +14,8 @@ export async function getTasks(req: Request, res: Response) {
   const { userId } = req.query;
 
   try {
-    const id = Array.isArray(userId) ? userId[0] : userId;
-    const userTasks = await tasksService.getAllUserTasks(Number(id));
+    const id = Number(userId);
+    const userTasks = await tasksService.getAllUserTasks(id);
     return res.status(httpStatus.OK).send(userTasks);
   } catch (error) {
     if (error.name === 'RequestError') {
